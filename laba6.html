@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Віртуальний клас</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background: #303440 }
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; background: #C09470; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h1 { color: white; font-size: 28px; }
+        h2 { color: #333; font-size: 24px; }
+        .students, .chat, .tasks, .uploads, .grades { margin-top: 20px; padding: 15px; border: 2px solid #BF8969; border-radius: 5px; background: #F0E6CC; }
+        input, button { padding: 12px; margin: 5px; border: 2px solid #58181A; border-radius: 5px; font-size: 16px; }
+        button { background: #8D2124; color: white; cursor: pointer; font-size: 16px;box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);transition: all 0.3s ease-in-out; }
+        button:hover { background: #58181A; }
+        .message-box { border-top: 2px solid #58181A; padding-top: 10px; margin-top: 10px; text-align: left; }
+        ul { list-style-type: circle; padding: 20 px; text-align: left; }
+        li {display: flex; justify-content: space-between; align-items: center; margin: 5px 0;}
+        .delete-btn {background: none;border: none;color: red;font-size: 18px;cursor: pointer;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Віртуальний клас</h1>
+        
+        
+        <div class="students">
+            <h2>Список студентів</h2>
+            <input id="studentName" type="text" placeholder="Додати студента">
+            <button onclick="addStudent()">Додати</button>
+            <ul id="studentList"></ul>
+        </div>
+        
+        
+        <div class="chat">
+            <h2>Чат</h2>
+            <input id="chatMessage" type="text" placeholder="Написати повідомлення">
+            <button onclick="sendMessage()">Надіслати</button>
+            <div class="message-box" id="chatBox"></div>
+        </div>
+        
+       
+        <div class="tasks">
+            <h2>Завдання</h2>
+            <input id="taskInput" type="text" placeholder="Додати завдання">
+            <button onclick="addTask()">Додати</button>
+            <ul id="taskList"></ul>
+        </div>
+        
+       
+        <div class="uploads">
+            <h2>Завантаження файлів</h2>
+            <input type="file" id="fileInput">
+            <button onclick="uploadFile()">Завантажити</button>
+            <ul id="fileList"></ul>
+        </div>
+        
+        
+        <div class="grades">
+            <h2>Оцінювання</h2>
+            <input id="gradeStudent" type="text" placeholder="Ім'я студента">
+            <input id="gradeValue" type="number" min="1" max="12" placeholder="Оцінка">
+            <button onclick="addGrade()">Поставити оцінку</button>
+            <ul id="gradeList"></ul>
+        </div>
+        
+        <button onclick="saveData()">Зберегти дані</button>
+        <button onclick="deleteAllData()">Видалити усі дані</button>
+
+    </div>
+
+    <script>
+        function addStudent() {
+            let name = document.getElementById("studentName").value;
+            if (name.trim() === "") return;
+            let list = document.getElementById("studentList");
+            let li = document.createElement("li");
+            li.textContent = name;
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "❌";
+            deleteButton.className = "delete-btn";
+            deleteButton.onclick = function () {
+                list.removeChild(li);
+            };
+            li.appendChild(deleteButton);
+            list.appendChild(li);
+            document.getElementById("studentName").value = "";
+        }
+
+        function sendMessage() {
+            let message = document.getElementById("chatMessage").value;
+            if (message.trim() === "") return;
+            let chatBox = document.getElementById("chatBox");
+            let p = document.createElement("p");
+            p.textContent = message;
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "❌";
+            deleteButton.className = "delete-btn";
+            deleteButton.onclick = function () {
+                chatBox.removeChild(p);
+            };
+            p.appendChild(deleteButton);
+            chatBox.appendChild(p);
+            document.getElementById("chatMessage").value = "";
+        }
+
+        function addTask() {
+            let task = document.getElementById("taskInput").value;
+            if (task.trim() === "") return;
+            let list = document.getElementById("taskList");
+            let li = document.createElement("li");
+            li.textContent = task;
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "❌";
+            deleteButton.className = "delete-btn";
+            deleteButton.onclick = function () {
+                list.removeChild(li);
+            };
+            li.appendChild(deleteButton);
+            list.appendChild(li);
+            document.getElementById("taskInput").value = "";
+        }
+
+        function uploadFile() {
+            let fileInput = document.getElementById("fileInput");
+            let file = fileInput.files[0];
+            if (!file) return;
+            let list = document.getElementById("fileList");
+            let li = document.createElement("li");
+            li.textContent = file.name;
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "❌";
+            deleteButton.className = "delete-btn";
+            deleteButton.onclick = function () {
+                list.removeChild(li);
+            };
+            li.appendChild(deleteButton);
+            list.appendChild(li);
+            fileInput.value = "";
+        }
+
+        function addGrade() {
+            let student = document.getElementById("gradeStudent").value;
+            let grade = document.getElementById("gradeValue").value;
+            if (student.trim() === "" || grade.trim() === "") return;
+            let list = document.getElementById("gradeList");
+            let li = document.createElement("li");
+            li.textContent = `${student}: ${grade}`;
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "❌";
+            deleteButton.className = "delete-btn";
+            deleteButton.onclick = function () {
+                list.removeChild(li);
+            };
+            li.appendChild(deleteButton);
+            list.appendChild(li);
+            document.getElementById("gradeStudent").value = "";
+            document.getElementById("gradeValue").value = "";
+        }
+
+        function saveData() {
+            let data = "Список студентів:\n" + document.getElementById("studentList").innerText + "\n\n";
+            data += "Чат:\n" + document.getElementById("chatBox").innerText + "\n\n";
+            data += "Завдання:\n" + document.getElementById("taskList").innerText + "\n\n";
+            data += "Оцінки:\n" + document.getElementById("gradeList").innerText + "\n\n";
+            
+            let blob = new Blob([data], { type: "text/plain" });
+            let a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "virtual_class_data.txt";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        function deleteAllData() {
+    if (confirm("Ви впевнені, що хочете видалити всі дані?")) {
+        document.getElementById("studentList").innerHTML = "";
+        document.getElementById("chatBox").innerHTML = "";
+        document.getElementById("taskList").innerHTML = "";
+        document.getElementById("fileList").innerHTML = "";
+        document.getElementById("gradeList").innerHTML = "";
+        alert("Усі дані було видалено!");
+    }
+}
+
+    </script>
+</body>
+</html>
